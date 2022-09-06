@@ -1,5 +1,6 @@
 import React from "react";
 import {Nav, Container} from 'react-bootstrap';
+import { HashRouter, Link } from "react-router-dom";
 
 export class GlavniMeniItem{
 
@@ -15,26 +16,48 @@ export class GlavniMeniItem{
 interface GlavniMeniProperties{
     stavke: GlavniMeniItem[];
 }
-
+interface GlavniMeniState{
+    stavke: GlavniMeniItem[];
+}
 export class GlavniMeni extends React.Component<GlavniMeniProperties>{
+    state: GlavniMeniState;
+    constructor(props: Readonly<GlavniMeniProperties>){
+
+        super(props);
+
+        this.state = {
+            stavke: props.stavke,
+        };
+
+    }
+    
+    setStavke(stavke: GlavniMeniItem[]){ 
+        this.setState({
+            stavke: stavke,
+        })
+    }
+        
+    
     render(): React.ReactNode {
         
         return(
 
             <Container>
             <Nav variant="tabs">
+                <HashRouter>
                 {
-                    this.props.stavke.map(
+                    this.state.stavke.map(
                         (stavka =>
                             {
                                 return(
-                                    <Nav.Link href={stavka.link}>{stavka.text}</Nav.Link>
+                                    <Link to={stavka.link}  className = 'nav-link'>{stavka.text}</Link>
                                 );
                             }
                         )
+                        
                     )
                 }
-
+                </HashRouter>
             </Nav>
             </Container>
 
