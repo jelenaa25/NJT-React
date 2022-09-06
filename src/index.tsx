@@ -27,9 +27,9 @@ root.render(
     <GlavniMeni stavke={stavke1}></GlavniMeni>
     <HashRouter>
       <Switch>
-        <Route  path='/' exact component={App} />
-        <Route  path='/klijenti' component={Klijenti} />
-        <Route  path='/polise' component={Polise} />
+        <Route   exact path='/' component={App} />
+        <Route exact path='/klijenti' component={Klijenti} />
+        <Route exact path='/polise' component={Polise} />
 
       </Switch>
     </HashRouter>
