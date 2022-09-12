@@ -8,6 +8,8 @@ import { GlavniMeni, GlavniMeniItem } from './components/GlavniMeni/GlavniMeni';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import Klijenti from './components/Klijenti/Klijenti';
 import Polise from './components/Polise/Polise';
+import Login from './components/Login/Login';
+import UcitanaPolisa from './components/Polise/UcitanaPolisa';
  
 
 const root = ReactDOM.createRoot(
@@ -19,6 +21,7 @@ const stavke1 = [
   new GlavniMeniItem("Home", "/"),
   new GlavniMeniItem("Polise", "/polise"),
   new GlavniMeniItem("Klijenti", "/klijenti"),
+  new GlavniMeniItem("Login", "/login"),
 
 ];
 
@@ -30,6 +33,8 @@ root.render(
         <Route   exact path='/' component={App} />
         <Route exact path='/klijenti' component={Klijenti} />
         <Route exact path='/polise' component={Polise} />
+        <Route exact path='/login' component={Login} />
+        <Route  path='/create-or-update-polisa/:id'  exact component={UcitanaPolisa}></Route>
 
       </Switch>
     </HashRouter>
