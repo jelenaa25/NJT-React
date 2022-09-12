@@ -26,9 +26,10 @@ const stavke1 = [
 ];
 
 root.render(
-  <React.StrictMode>
-    <GlavniMeni stavke={stavke1}></GlavniMeni>
+  //<React.StrictMode>
+    
     <HashRouter>
+    <GlavniMeni stavke={stavke1}></GlavniMeni>
       <Switch>
         <Route   exact path='/' component={App} />
         <Route exact path='/klijenti' component={Klijenti} />
@@ -38,7 +39,7 @@ root.render(
 
       </Switch>
     </HashRouter>
-  </React.StrictMode>
+  //</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
