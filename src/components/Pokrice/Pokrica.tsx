@@ -30,7 +30,7 @@ export default class Pokrica extends React.Component{
             Authorization: "Bearer " + localStorage.getItem('token'),
             "Access-Control-Allow-Origin": "*",
           }}).then((response: any) => {
-            this.setState({predmeti: response.data})
+            this.setState({pokrica: response.data})
      
         }).catch((error: any) => {
          this.setState({isUserLoggedIn: false});
@@ -63,7 +63,7 @@ export default class Pokrica extends React.Component{
                          <td>{pr.sifra}</td>
                          <td>{pr.naziv}</td> 
                          <td>{pr.napomena}</td>   
-                         <td><Link to= {`/create-or-update-pokrice/${pr.sifra}`} style={{marginLeft : "10px"}}>Ucitaj</Link></td>               
+                         <td><Link to= {`/create-or-update-pokrice/${pr.sifra}`} style={{marginLeft : "10px"}} className = 'btn btn-primary'>Ucitaj</Link></td>               
                       </tr> 
                   )
                   }

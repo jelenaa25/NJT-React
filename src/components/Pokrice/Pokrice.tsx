@@ -4,11 +4,13 @@ import Mesto from "../../model/Mesto";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { isElementAccessExpression } from 'typescript';
+import { Card, Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
 
 interface PokriceState{
     isUserLoggedIn: boolean;
     pokrice: Pokrice;
     vratiNaSva: boolean;
+    idPok: number | string;
     
 }
 const Pokrica_API_Base_URL = "http://localhost:9000/pokrice";
@@ -30,18 +32,19 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
           isUserLoggedIn: true,
            pokrice: new Pokrice(),
            vratiNaSva: false,
+           idPok: '_add',
            
         }
 
        
     }
-
     componentDidMount(){
         
         if(this.props.match.params.id === '_add'){
             return; //samo izadji
         }
         //ako ima id broj ucitaj pokrice!!!
+        this.setState({idPok: this.props.match.params.id})
         axios.get(Pokrica_API_Base_URL+ '/'+ this.props.match.params.id, {headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
             "Access-Control-Allow-Origin": "*",
@@ -54,15 +57,21 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
     }
     getTitle(){
         if(this.props.match.params.id === '_add'){
-            return <h3 className='text-center'>Kreiranje pokrica</h3>;
-        }else return <h3 className='text-center'>Evidencija pokrica</h3>
+            return <Card.Title className='text-center'>Kreiranje pokrica</Card.Title>
+        }else return <Card.Title className='text-center'>Evidencija pokrica</Card.Title>
 
     }
     
     sacuvajPokrice() {
         ////////validacijaaaaaaaaaaaaaaa
+        //console.log("PARAM"+this.state.idPok)
+    
         if(this.props.match.params.id === '_add'){
-        axios.post(Pokrica_API_Base_URL, this.state.pokrice, {headers: {
+            const p = {
+                naziv: this.state.pokrice.naziv,
+                napomena: this.state.pokrice.napomena,
+            }
+        axios.post(Pokrica_API_Base_URL, p, {headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
             "Access-Control-Allow-Origin": "*",
           }}).then((response: any) => {
@@ -72,7 +81,7 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
      
         }).catch((error: any) => {
             console.log("DOSLO JE DO GRESKE pri cuvanju...!!!");
-         this.setState({isUserLoggedIn: false});
+        // this.setState({isUserLoggedIn: false});
         })
         }else {
             axios.put(Pokrica_API_Base_URL + '/'+this.props.match.params.id, this.state.pokrice, {headers: {
@@ -81,6 +90,7 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
               }}).then((response: any) => {
                 //preusmeri na sva pokrica.......
                 console.log("USPESNO PROEMNJENO!!");
+                this.setState({vratiNaSva: true});
          
             }).catch((error: any) => {
                 console.log("DOSLO JE DO GRESKE pri proemni!!!");
@@ -98,7 +108,7 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
         }
     }*/
     private promena(event: React.ChangeEvent<HTMLInputElement>){
-        const newState  = Object.assign(this.state, {
+        const newState  = Object.assign(this.state.pokrice, {
          [ event.target.id ]: event.target.value,
         });
   
@@ -117,35 +127,36 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
             );
           }
         return (
-            <div>
-                <div className='container'>
+            <div className='center'>
+                <Container>
 
-                    <div className='row'>
-                        <div className='card col-md-6 offset-md-3 offset-md-3'>
+                    <Col md= {{span: 6, offset: 3}}>
+                        <Card>
                             {
                                 this.getTitle()
                             }
-                            <div className='card-body'>
-                                <form>
-                                    <div className='form-group'>
-                                        <label>Naziv: </label>
-                                        <input placeholder='Naziv' name='naziv'id='naziv' className='form-control' value={this.state.pokrice.naziv} onChange = {event => this.promena(event as any)} />
-                                    </div>
+                            <Card.Body>
+                                <Form>
+                                    <FormGroup>
+                                        <Form.Label htmlFor="naziv">Naziv:</Form.Label>
+                                        <Form.Control type="naziv" id="naziv" value={this.state.pokrice.naziv} onChange = {event => this.promena(event as any)} />
+                                    </FormGroup>
                                     <p id="n" className='text-danger'></p>
 
-                                    <div className='form-group'>
-                                        <label>Napomena: </label>
-                                        <input placeholder='Napomena' name='opis' id='opis' className='form-control' value={this.state.pokrice.napomena} onChange = {event => this.promena(event as any)} />
-                                    </div>
+                                    <FormGroup>
+                                        <Form.Label htmlFor="napomena">Napomena:</Form.Label>
+                                        <Form.Control type="napomena" id="napomena" value={this.state.pokrice.napomena}  onChange = {event => this.promena(event as any)} />
+                                    </FormGroup>
+                                    <FormGroup>
+                                    <button className='btn btn-success' onClick={() => this.sacuvajPokrice()} style={{ marginTop: "10px"}}>Sacuvaj</button>
+                                    <Link className='btn btn-danger' to='/pokrica' style={{marginLeft: "10px", marginTop: "10px"}}>Otkazi</Link>
+                                    </FormGroup>
+                                </Form>
+                            </Card.Body>
 
-                                    <button className='btn btn-success' onClick={this.sacuvajPokrice}>Sacuvaj</button>
-                                    <Link className='btn btn-danger' to='/pokrica' style={{marginLeft: "10px"}}>Otkazi</Link>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                        </Card>
+                    </Col>
+                </Container>
 
             </div>
         );
