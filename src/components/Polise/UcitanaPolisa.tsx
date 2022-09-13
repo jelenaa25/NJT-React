@@ -32,6 +32,7 @@ interface UcitanaPolisaState{
     pokrica: Pokrice[];
     predmeti: PredmetOsiguranja[];
     klID: number;
+    vrati: boolean;
 }
 export default class UcitanaPolisa extends React.Component<PolisaProperties>{
   
@@ -48,6 +49,7 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
             pokrica: [],
             predmeti: [],
             klID: 0,
+            vrati: false,
         }
     }
 
@@ -115,6 +117,11 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
         if(this.state.isUserLoggedIn === false){
             return(
               <Redirect to="/login" />
+            );
+          }
+          if(this.state.vrati === true){
+            return(
+              <Redirect to="/" />
             );
           }
 
@@ -207,6 +214,20 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
     }
 
     private obrisi(){
+      axios.delete(Polisa_API_Base_URL+'/'+this.props.match.params.id, {headers: {
+        Authorization: "Bearer " + localStorage.getItem('token'),
+        "Access-Control-Allow-Origin": "*",
+      }}).then((response: any) => {
+       
+        console.log("USPESNO OBRISANA POLISA")
+        this.setState({vrati: true});
+
+    }).catch((error: any) => {
+    // this.setState({isUserLoggedIn: false});
+    console.log("ERR: "+error);
+
+    });
+
 
     }
     private formatDate(date: Date) {
