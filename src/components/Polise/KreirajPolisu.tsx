@@ -29,6 +29,7 @@ interface KreirajPolisuState{
     RB: number;
     procenatAmortizacije: number;
     vrati: boolean;
+    errorMess: string;
 }
 export default class KreirajPolisu extends React.Component {
     state: KreirajPolisuState;
@@ -48,6 +49,7 @@ export default class KreirajPolisu extends React.Component {
             procenatAmortizacije: 0,
             stavke: [],
             vrati: false,
+            errorMess: '',
         }
     }
 
@@ -145,11 +147,11 @@ export default class KreirajPolisu extends React.Component {
                       </Form.Group>
                       <Form.Group>
                         <Form.Label htmlFor="od">DatumOD:</Form.Label>
-                        <Form.Control type="od" id="od" value={this.state.od} onChange = {event => this.promenaOD(event as any)}/>
+                        <Form.Control type="od" id="od" value={this.state.od} onChange = {event => this.promenaOD(event as any)} placeholder='yyyy-MM-dd' />
                       </Form.Group>
                       <Form.Group>
                         <Form.Label htmlFor="do">DatumDO:</Form.Label>
-                        <Form.Control type="do" id="do" value={this.state.do} onChange = {event  => this.promenaDO(event as any)}/>
+                        <Form.Control type="do" id="do" value={this.state.do} onChange = {event  => this.promenaDO(event as any)} placeholder='yyyy-MM-dd'/>
                       </Form.Group>
                       
 
@@ -187,6 +189,11 @@ export default class KreirajPolisu extends React.Component {
                       </Form.Group>
 
                     </Form>
+                    <Alert variant="danger" className={this.state.errorMess ? '' : 'd-none'} style={{'marginTop': '10px'}}>
+                        {
+                            this.state.errorMess
+                        }
+                    </Alert>
                     <Table responsive>
                     <thead>
                             <tr>
@@ -254,8 +261,19 @@ export default class KreirajPolisu extends React.Component {
         this.state.polisa.stavke = okk;
 
     }
+    validateAmortizaciju(): string{
+        var c = '';
+        if(isNaN(this.state.procenatAmortizacije) || this.state.procenatAmortizacije <= 0) c = c+"Amortizacija mora biti ceo broj i veci od nule."
+        return c;
+    }
 
     private dodajStavku(){
+      //  this.setState({errorMess: ''});
+      this.state.errorMess = '';
+        if(this.validateAmortizaciju().length > 1){
+            this.setState({errorMess: this.state.errorMess+this.validateAmortizaciju() });
+            return;
+        }
         if(this.state.pokID == 0) this.state.pokID = Number(this.state.pokrica[this.state.pokrica.length-1].sifra);
         if(this.state.predID == 0) this.state.predID = Number(this.state.predmeti[this.state.predmeti.length-1].sifra);
         const stav  = {rb: this.state.RB, 
@@ -275,6 +293,8 @@ export default class KreirajPolisu extends React.Component {
     }
 
     private sacuvajPolisu(){
+        this.setState(Object.assign(this.state, {errorMess: ''}));
+        this.validatePolis(); if(this.state.errorMess.length > 1) return;
         let uk = 0;
         if(this.state.polisa.klijent === undefined) this.state.polisa.klijent = this.state.klijenti[this.state.klijenti.length-1].id
         console.log("KLIJENT:::: "+this.state.klijenti[this.state.klijenti.length-1].id)
@@ -343,6 +363,42 @@ export default class KreirajPolisu extends React.Component {
            });
      
            this.setState(newState);
+
+    }
+
+    validatePolis(){
+        
+        if(isNaN(Number(this.state.polisa.vrednostPoKvM)) || Number(this.state.polisa.vrednostPoKvM) <= 0){
+           // this.setState({errorMess: this.state.errorMess + "Vrednost po kVm mora biti broj i veca od nule. "});
+            //this.state.errorMess = this.state.errorMess + "Vr po kVm mora biti broj i veca od nule. ";
+            this.setState(Object.assign(this.state, {errorMess: this.state.errorMess+"Vr po kVm mora biti broj i veca od nule. "}));
+        }
+        if(isNaN(Number(this.state.polisa.povrsinaStana))  || Number(this.state.polisa.povrsinaStana) <= 0){
+           // this.setState({errorMess: this.state.errorMess + "Povrsina stana mora biti broj i veci od nule. "});
+            //this.state.errorMess = this.state.errorMess + "Povrsina mora biti broj i veci od nule. ";
+            this.setState(Object.assign(this.state, {errorMess: this.state.errorMess+"Povrsina stana mora biti broj i veci od nule. "}));
+         }
+         if(this.state.stavke?.length == 0 || this.state.stavke === undefined){
+         //   this.setState({errorMess: this.state.errorMess + 'Polisa mora imati bar jednu stavku.'});
+           // this.state.errorMess = this.state.errorMess + "Polisa mora imati bar jednu stavku. ";
+            this.setState(Object.assign(this.state, {errorMess: this.state.errorMess+"Polisa mora imati bar jednu stavku "}));
+
+         }
+         var dateReg = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
+
+        if(this.state.do.match(dateReg) == null){
+            //this.setState({errorMess: this.state.errorMess + 'DatumDO nije u dobrom formatu. '});
+          //  this.state.errorMess = this.state.errorMess + "DatumDO nije u dobrom formatu. ";
+            this.setState(Object.assign(this.state, {errorMess: this.state.errorMess+"DatumDO nije u dobrom formatu. "}));
+
+        }
+        if(this.state.od.match(dateReg) == null){
+           // this.setState({errorMess: this.state.errorMess + 'DatumOD nije u dobrom formatu. '});
+           // this.state.errorMess = this.state.errorMess + "DatumOD nije u dobrom formatu. ";
+           this.setState(Object.assign(this.state, {errorMess: this.state.errorMess+"DatumOD nije u dobrom formatu. "}));
+
+
+        }
 
     }
 
