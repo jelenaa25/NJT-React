@@ -14,6 +14,7 @@ import Pokrice from './model/Pokrice';
 import Pokrica from './components/Pokrice/Pokrica';
 import PredmetiOsiguranja from './components/PredmetOsiguranja/PredmetiOsiguranja';
 import Pokrice1 from './components/Pokrice/Pokrice';
+import KreirajPolisu from './components/Polise/KreirajPolisu';
  
 
 const root = ReactDOM.createRoot(
@@ -23,6 +24,7 @@ const root = ReactDOM.createRoot(
 const stavke1 = [
 
   new GlavniMeniItem("Home", "/"), //to su sve polise 
+  new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
   new GlavniMeniItem("Predmeti", "/predmeti"),
   new GlavniMeniItem("Klijenti", "/klijenti"),
   new GlavniMeniItem("Login", "/login"),
@@ -44,6 +46,7 @@ root.render(
         <Route  path='/create-or-update-pokrice/:id'  exact component={Pokrice1}></Route>
         <Route  path='/pokrica'  exact component={Pokrica}></Route>
         <Route  path='/predmeti'  exact component={PredmetiOsiguranja}></Route>
+        <Route  path='/kreiraj-polisu'  exact component={KreirajPolisu}></Route>
 
       </Switch>
     </HashRouter>
