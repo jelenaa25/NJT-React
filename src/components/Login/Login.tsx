@@ -35,6 +35,8 @@ export default class Login extends React.Component{
       this.setState(newState);
     }
     private login(){
+      this.setState(Object.assign(this.state, {errorMess: ''}));
+      if(this.validate() === false) return;
       axios
       .post(Klijent_API_Base_URL, {
         username: this.state.username,
@@ -51,10 +53,18 @@ export default class Login extends React.Component{
       console.log(localStorage.getItem('token'))
       console.log(localStorage.getItem('id'));
     }).catch((error: any) => {
-      this.setState({errorMess: 'Losi parametri za prijavu.'})
+      this.setState(Object.assign(this.state, {errorMess: 'Neuspesna prijava'}));
       console.log(error);
 
     })
+
+    }
+    private validate(): boolean{
+      if(this.state.password === '' || this.state.username === ''){
+        this.setState(Object.assign(this.state, {errorMess: 'Unesite sve podatke.'}));
+        return false;
+      }
+      return true;
 
     }
     render(): React.ReactNode {
