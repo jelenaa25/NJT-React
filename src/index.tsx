@@ -10,6 +10,10 @@ import Klijenti from './components/Klijenti/Klijenti';
 import Polise from './components/Polise/Polise';
 import Login from './components/Login/Login';
 import UcitanaPolisa from './components/Polise/UcitanaPolisa';
+import Pokrice from './model/Pokrice';
+import Pokrica from './components/Pokrice/Pokrica';
+import PredmetiOsiguranja from './components/PredmetOsiguranja/PredmetiOsiguranja';
+import Pokrice1 from './components/Pokrice/Pokrice';
  
 
 const root = ReactDOM.createRoot(
@@ -18,10 +22,11 @@ const root = ReactDOM.createRoot(
 
 const stavke1 = [
 
-  new GlavniMeniItem("Home", "/"),
-  new GlavniMeniItem("Polise", "/polise"),
+  new GlavniMeniItem("Home", "/"), //to su sve polise 
+  new GlavniMeniItem("Predmeti", "/predmeti"),
   new GlavniMeniItem("Klijenti", "/klijenti"),
   new GlavniMeniItem("Login", "/login"),
+  new GlavniMeniItem("Pokrica", "/pokrica"),
 
 ];
 
@@ -36,6 +41,9 @@ root.render(
         <Route exact path='/polise' component={Polise} />
         <Route exact path='/login' component={Login} />
         <Route  path='/create-or-update-polisa/:id'  exact component={UcitanaPolisa}></Route>
+        <Route  path='/create-or-update-pokrice/:id'  exact component={Pokrice1}></Route>
+        <Route  path='/pokrica'  exact component={Pokrica}></Route>
+        <Route  path='/predmeti'  exact component={PredmetiOsiguranja}></Route>
 
       </Switch>
     </HashRouter>
