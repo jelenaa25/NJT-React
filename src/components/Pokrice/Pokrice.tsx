@@ -4,13 +4,14 @@ import Mesto from "../../model/Mesto";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { isElementAccessExpression } from 'typescript';
-import { Card, Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
+import { Alert, Card, Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
 
 interface PokriceState{
     isUserLoggedIn: boolean;
     pokrice: Pokrice;
     vratiNaSva: boolean;
     idPok: number | string;
+    errorMess: string;
     
 }
 const Pokrica_API_Base_URL = "http://localhost:9000/pokrice";
@@ -33,6 +34,7 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
            pokrice: new Pokrice(),
            vratiNaSva: false,
            idPok: '_add',
+           errorMess: '',
            
         }
 
@@ -61,11 +63,19 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
         }else return <Card.Title className='text-center'>Evidencija pokrica</Card.Title>
 
     }
+    private validate(): boolean{
+        if(this.state.pokrice.naziv === '' || this.state.pokrice.naziv === undefined){
+          this.setState(Object.assign(this.state, {errorMess: 'Unesite naziv.'}));
+          return false;
+        }
+        return true;
+  
+      }
     
     sacuvajPokrice() {
+        this.setState(Object.assign(this.state, {errorMess: ''}));
         ////////validacijaaaaaaaaaaaaaaa
-        //console.log("PARAM"+this.state.idPok)
-    
+        if(this.validate() === false){return;}
         if(this.props.match.params.id === '_add'){
             const p = {
                 naziv: this.state.pokrice.naziv,
@@ -152,6 +162,11 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
                                     <Link className='btn btn-danger' to='/pokrica' style={{marginLeft: "10px", marginTop: "10px"}}>Otkazi</Link>
                                     </FormGroup>
                                 </Form>
+                                <Alert variant="danger" className={this.state.errorMess ? '' : 'd-none'} style={{'marginTop': '10px'}}>
+                                         {
+                                                this.state.errorMess
+                                         }
+                                </Alert>
                             </Card.Body>
 
                         </Card>
