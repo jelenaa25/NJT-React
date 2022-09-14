@@ -13,5 +13,6 @@ export default class Polisa{
     datumDO?: Date;
     agentOsiguranja?: number;
     stavke?: StavkaPolise[];
+    imePrezime?: string;
 
 }

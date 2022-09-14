@@ -301,7 +301,7 @@ export default class KreirajPolisu extends React.Component {
         for(let i = 0; i < this.state.stavke.length; i++){
             uk = uk + Number(this.state.stavke[i].premija);
         }
-        let po  = {klijent: this.state.polisa.klijent, povrsinaStana: this.state.polisa.povrsinaStana, vrednostPoKvM: this.state.polisa.vrednostPoKvM, gradjevinskaVrednost: (Number(this.state.polisa.povrsinaStana)*Number(this.state.polisa.vrednostPoKvM)), ukupnaPremija: uk, datumOD:  new Date(this.state.od), datumDO: new Date (this.state.do), agentOsiguranja: localStorage.getItem('id'), stavke: this.state.polisa.stavke };
+        let po  = {klijent: this.state.polisa.klijent, povrsinaStana: this.state.polisa.povrsinaStana, vrednostPoKvM: this.state.polisa.vrednostPoKvM, gradjevinskaVrednost: (Number(this.state.polisa.povrsinaStana)*Number(this.state.polisa.vrednostPoKvM)), ukupnaPremija: uk, datumOD:  new Date(this.state.od), datumDO: new Date (this.state.do), agentOsiguranja: localStorage.getItem('id'), stavke: this.state.polisa.stavke, imePrezime: '' };
         console.log("UKUPNA PREMIJA: "+po.ukupnaPremija);
         //this.staviSvePprazne();
         console.log('polisa =>'+ JSON.stringify(po));

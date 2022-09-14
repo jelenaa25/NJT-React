@@ -50,11 +50,13 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
             predmeti: [],
             klID: 0,
             vrati: false,
+            
         }
     }
 
       componentDidMount(): void {
         this.ucitajPolisu();
+       
         
       }
 
@@ -63,8 +65,10 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
             Authorization: "Bearer " + localStorage.getItem('token'),
             "Access-Control-Allow-Origin": "*",
           }}).then((response: any) => {
-            this.setState({polisa: response.data})
-            this.setState({klID: response.data.klijent})
+            //this.setState({polisa: response.data})
+            this.promena(response.data);
+            //this.setState({klID: response.data.klijent})
+           // this.promena1(response.data.klijent);
             let pok = response.data;
             const d1 = new Date(pok.datumOD);
             const d2 = new Date(pok.datumDO);
@@ -74,19 +78,7 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
          //this.setState({isUserLoggedIn: false});
          console.log("ERR: "+error);
         });
-        console.log("KLL:"+this.state.polisa.klijent)
-
-        axios.get(Klijent_API_Base_URL+'/'+this.state.klID, {headers: {
-            Authorization: "Bearer " + localStorage.getItem('token'),
-            "Access-Control-Allow-Origin": "*",
-          }}).then((response: any) => {
-            this.setState({klijent: response.data})
-     
-        }).catch((error: any) => {
-        // this.setState({isUserLoggedIn: false});
-        console.log("ERR: "+error);
-
-        });
+        console.log("KLL:"+this.state.polisa?.klijent)
 
         axios.get(Pokrica_API_Base_URL, {headers: {
           Authorization: "Bearer " + localStorage.getItem('token'),
@@ -141,7 +133,7 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
                       </Form.Group>
                       <Form.Group>
                         <Form.Label htmlFor="klijent">Klijent:</Form.Label>
-                        <Form.Control type="klijent" id="password" value={this.state.klijent.imePrezime} />
+                        <Form.Control type="klijent" id="password" value={this.state.polisa.imePrezime}></Form.Control>
                       </Form.Group>
                       <Form.Group>
                         <Form.Label htmlFor="povrsina">Povrsina:</Form.Label>
@@ -254,5 +246,20 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
       }
       return <><td>{npred}</td>
       <td>{npokrica}</td></>
+  }
+
+  private promena1(data: any){
+    const newState  = Object.assign(this.state, {
+      klID: data,
+    });
+
+    this.setState(newState);
+  }
+  private promena(data: any){
+    const newState  = Object.assign(this.state, {
+     polisa: data,
+    });
+
+    this.setState(newState);
   }
 }
