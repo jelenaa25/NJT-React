@@ -105,7 +105,7 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
       }}).then((response: any) => {
         this.setState({predmeti: response.data})
     }).catch((error: any) => {
-    // this.setState({isUserLoggedIn: false});
+     //this.setState({isUserLoggedIn: false});
     console.log("ERR: "+error);
 
     });
