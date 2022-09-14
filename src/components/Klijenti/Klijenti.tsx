@@ -3,10 +3,13 @@ import Klijent from "../../model/Klijent";
 import { Container, Card, Table, Col, Row } from 'react-bootstrap';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
 
 interface KlijentiState{
   klijenti: Klijent[];
   isUserLoggedIn: boolean;
+  filter: number;
 }
 const Klijent_API_Base_URL = "http://localhost:9000/klijent";
 
@@ -17,6 +20,7 @@ export default class Klijenti extends React.Component{
     this.state = {
       klijenti: [],
       isUserLoggedIn: true,
+      filter: 0,
     };
   }
 
@@ -35,6 +39,10 @@ export default class Klijenti extends React.Component{
           <Container>
           <Card>
             <Card.Title className='text-center'><h3>Klijenti</h3></Card.Title>
+            <InputGroup className="mb-3">
+                  <InputGroup.Text>Pretraga klijenta po JMBG-u:</InputGroup.Text>
+                  <Form.Control type="filter" id="filter" value={this.state.filter} onChange = {event => this.promena(event as any)} />
+            </InputGroup>
             <Row>
               {this.state.klijenti.map(this.singleKlijent)}
             </Row>
@@ -75,5 +83,19 @@ export default class Klijenti extends React.Component{
     }).catch((error: any) => {
      this.setState({isUserLoggedIn: false});
     })
+    }
+private promena(event: React.ChangeEvent<HTMLInputElement>){
+  //ako filter nije broj return;
+      const newState  = Object.assign(this.state, {
+       [ event.target.id ]: event.target.value,
+      });
+
+      this.setState(newState);
+
+      //filtriraj klijente
+      
+      //setuj state klijenti
+
+
     }
 }
