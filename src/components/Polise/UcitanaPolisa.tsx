@@ -8,6 +8,7 @@ import { Link, Redirect } from "react-router-dom";
 import Pokrice from "../../model/Pokrice";
 import { useHistory } from "react-router";
 import PredmetOsiguranja from "../../model/PredmetOsiguranja";
+import { GlavniMeni, GlavniMeniItem } from "../GlavniMeni/GlavniMeni";
 
 interface PolisaProperties{
     match: {
@@ -113,12 +114,13 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
           }
           if(this.state.vrati === true){
             return(
-              <Redirect to="/" />
+              <Redirect to="/polise" />
             );
           }
 
          return(
             <Container>
+              <GlavniMeni stavke={stavke1}></GlavniMeni>
              <Col  md= {{span: 6, offset: 3}}>
               <Card>
                 <Card.Body>
@@ -162,7 +164,7 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
 
                       <Form.Group>
                         <Button variant="danger" style={{'marginTop': '10px', 'marginBottom': '10px', 'marginRight': '10px'}} onClick = {() => this.obrisi()}>Obrisi polisu</Button>
-                        <Link to= "/" className = "btn btn-primary">Nazad</Link>
+                        <Link to= "/polise" className = "btn btn-primary">Nazad</Link>
                       </Form.Group>
 
                     </Form>
@@ -263,3 +265,13 @@ export default class UcitanaPolisa extends React.Component<PolisaProperties>{
     this.setState(newState);
   }
 }
+const stavke1 = [
+
+  new GlavniMeniItem("Pocetna", "/polise"), //to su sve polise 
+  new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
+  new GlavniMeniItem("Predmeti", "/predmeti"),
+  new GlavniMeniItem("Klijenti", "/klijenti"),
+  new GlavniMeniItem("Pokrica", "/pokrica"),
+  new GlavniMeniItem("Odjava", "/odjava"),
+
+];

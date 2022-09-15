@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Container, Card, Form, Button, Col, Alert, Table, Dropdown } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import StavkaPolise from "../../model/StavkaPolise";
+import { GlavniMeni, GlavniMeniItem } from "../GlavniMeni/GlavniMeni";
 
 
 const Polisa_API_Base_URL = "http://localhost:9000/polisa";
@@ -107,12 +108,13 @@ export default class KreirajPolisu extends React.Component {
 
           if(this.state.vrati === true){
             return(
-              <Redirect to="/" />
+              <Redirect to="/polise" />
             );
           }
 
          return(
             <Container>
+            <GlavniMeni stavke={stavke1}></GlavniMeni>
              <Col  md= {{span: 6, offset: 3}}>
               <Card>
                 <Card.Body>
@@ -185,7 +187,7 @@ export default class KreirajPolisu extends React.Component {
                       <Form.Group>
                       <Button variant="primary" style={{'marginTop': '10px', 'marginBottom': '10px', 'marginRight': '10px'}} onClick = {() => this.sacuvajPolisu()}>Sacuvaj polisu</Button>
                       <Button variant="primary" style={{'marginTop': '10px', 'marginBottom': '10px', 'marginRight': '10px'}} onClick = {() => this.dodajStavku()}>Dodaj stavku</Button>
-                        <Link to= "/" className = "btn btn-danger">Nazad</Link>
+                        <Link to= "/polise" className = "btn btn-danger">Nazad</Link>
                       </Form.Group>
 
                     </Form>
@@ -404,3 +406,13 @@ export default class KreirajPolisu extends React.Component {
 
     
 }
+const stavke1 = [
+
+  new GlavniMeniItem("Pocetna", "/polise"), //to su sve polise 
+  new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
+  new GlavniMeniItem("Predmeti", "/predmeti"),
+  new GlavniMeniItem("Klijenti", "/klijenti"),
+  new GlavniMeniItem("Pokrica", "/pokrica"),
+  new GlavniMeniItem("Odjava", "/odjava"),
+
+];

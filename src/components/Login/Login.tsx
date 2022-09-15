@@ -70,7 +70,7 @@ export default class Login extends React.Component{
     render(): React.ReactNode {
       if(this.state.isLoggedIn === true){
         return(
-          <Redirect to="/" />
+          <Redirect to="/polise" />
         );
       }
         return (

@@ -3,6 +3,7 @@ import PredmetOsiguranja from "../../model/PredmetOsiguranja";
 import axios from 'axios';
 import { Container, Card, Table, Col, Row } from 'react-bootstrap';
 import { Link, Redirect } from "react-router-dom";
+import { GlavniMeni, GlavniMeniItem } from "../GlavniMeni/GlavniMeni";
 
 interface PredmetiOsiguranjaState{
     predmeti: PredmetOsiguranja[];
@@ -46,6 +47,7 @@ export default class PredmetiOsiguranja extends React.Component{
     
           return (
             <Container>
+              <GlavniMeni stavke={stavke1}></GlavniMeni>
             <Table responsive>
             <thead>
                     <tr>
@@ -70,7 +72,14 @@ export default class PredmetiOsiguranja extends React.Component{
             </Container>   
             );
       }
-
-
-
 }
+const stavke1 = [
+
+  new GlavniMeniItem("Pocetna", "/polise"), //to su sve polise 
+  new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
+  new GlavniMeniItem("Predmeti", "/predmeti"),
+  new GlavniMeniItem("Klijenti", "/klijenti"),
+  new GlavniMeniItem("Pokrica", "/pokrica"),
+  new GlavniMeniItem("Odjava", "/odjava"),
+
+];

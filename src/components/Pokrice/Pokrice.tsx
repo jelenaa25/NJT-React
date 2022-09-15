@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { isElementAccessExpression } from 'typescript';
 import { Alert, Card, Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
+import { GlavniMeni, GlavniMeniItem } from '../GlavniMeni/GlavniMeni';
 
 interface PokriceState{
     isUserLoggedIn: boolean;
@@ -139,6 +140,7 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
         return (
             <div className='center'>
                 <Container>
+                <GlavniMeni stavke={stavke1}></GlavniMeni>
 
                     <Col md= {{span: 6, offset: 3}}>
                         <Card>
@@ -177,4 +179,13 @@ export default class Pokrice1 extends React.Component<PokriceProperties> {
         );
     }
 }
+const stavke1 = [
 
+    new GlavniMeniItem("Pocetna", "/polise"), //to su sve polise 
+    new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
+    new GlavniMeniItem("Predmeti", "/predmeti"),
+    new GlavniMeniItem("Klijenti", "/klijenti"),
+    new GlavniMeniItem("Pokrica", "/pokrica"),
+    new GlavniMeniItem("Odjava", "/odjava"),
+  
+  ];

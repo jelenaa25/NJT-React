@@ -3,6 +3,7 @@ import { Container, Card, Table, Col, Row, Form, Button } from 'react-bootstrap'
 import Polisa from '../../model/Polisa';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
+import { GlavniMeni, GlavniMeniItem } from '../GlavniMeni/GlavniMeni';
 
 interface AppState{
   isUserLoggedIn: boolean;
@@ -10,6 +11,16 @@ interface AppState{
   klijent: string;
 
 }
+const stavke1 = [
+
+  new GlavniMeniItem("Pocetna", "/polise"), //to su sve polise 
+  new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
+  new GlavniMeniItem("Predmeti", "/predmeti"),
+  new GlavniMeniItem("Klijenti", "/klijenti"),
+  new GlavniMeniItem("Pokrica", "/pokrica"),
+  new GlavniMeniItem("Odjava", "/odjava"),
+
+];
 const Polisa_API_Base_URL = "http://localhost:9000/polisa";
 
 class App extends React.Component {
@@ -63,7 +74,9 @@ class App extends React.Component {
     
 
   return (
+    
     <Container>
+      <GlavniMeni stavke={stavke1}></GlavniMeni>
       <Card >
         <Card.Title className='text-center'><h3>Polise</h3></Card.Title>
         <Col md= {{span: 6, offset: 3}}>
@@ -139,7 +152,7 @@ class App extends React.Component {
 
     this.setState(newState);
   }
-
+  
 
 }
 

@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import { GlavniMeni, GlavniMeniItem } from "../GlavniMeni/GlavniMeni";
 
 interface KlijentiState{
   klijenti: Klijent[];
@@ -39,6 +40,7 @@ export default class Klijenti extends React.Component{
   
         return (
           <Container>
+          <GlavniMeni stavke={stavke1}></GlavniMeni>
           <Card>
             <Card.Title className='text-center'><h3>Klijenti</h3></Card.Title>
             <InputGroup className="mb-3">
@@ -126,3 +128,14 @@ private promena(event: React.ChangeEvent<HTMLInputElement>){
 
     }
 }
+
+const stavke1 = [
+
+  new GlavniMeniItem("Pocetna", "/polise"), //to su sve polise 
+  new GlavniMeniItem("Kreiranje polise", '/kreiraj-polisu'),
+  new GlavniMeniItem("Predmeti", "/predmeti"),
+  new GlavniMeniItem("Klijenti", "/klijenti"),
+  new GlavniMeniItem("Pokrica", "/pokrica"),
+  new GlavniMeniItem("Odjava", "/odjava"),
+
+];
