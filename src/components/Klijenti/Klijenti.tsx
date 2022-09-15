@@ -8,8 +8,9 @@ import Form from 'react-bootstrap/Form';
 
 interface KlijentiState{
   klijenti: Klijent[];
+  pocetni: Klijent[];
   isUserLoggedIn: boolean;
-  filter: number;
+  filter: string;
 }
 const Klijent_API_Base_URL = "http://localhost:9000/klijent";
 
@@ -20,7 +21,8 @@ export default class Klijenti extends React.Component{
     this.state = {
       klijenti: [],
       isUserLoggedIn: true,
-      filter: 0,
+      filter: '',
+      pocetni: [],
     };
   }
 
@@ -79,6 +81,7 @@ export default class Klijenti extends React.Component{
         "Access-Control-Allow-Origin": "*",
       }}).then((response: any) => {
         this.setState({klijenti: response.data})
+        this.setState({pocetni: response.data})
  
     }).catch((error: any) => {
      this.setState({isUserLoggedIn: false});
@@ -86,15 +89,39 @@ export default class Klijenti extends React.Component{
     }
 private promena(event: React.ChangeEvent<HTMLInputElement>){
   //ako filter nije broj return;
+  
       const newState  = Object.assign(this.state, {
        [ event.target.id ]: event.target.value,
       });
 
       this.setState(newState);
 
+      if(this.state.filter === ''){
+        const newState  = Object.assign(this.state, {
+          klijenti: this.state.pocetni,
+         });
+   
+         this.setState(newState); return;
+      }
+      //if(isNaN(this.state.filter)) return;
       //filtriraj klijente
-      
+      let noviKlijenti = [];
+      for(let i = 0; i < this.state.klijenti.length; i++){
+        let pr = Number(this.state.klijenti[i].jmbg);
+        let p = pr.toString();
+        let f = this.state.filter.toString();
+        if(p.includes(f)){
+            noviKlijenti.push(this.state.klijenti[i]);
+        }
+      }
       //setuj state klijenti
+      if(noviKlijenti.length >= 1){
+        const newState  = Object.assign(this.state, {
+          klijenti:noviKlijenti,
+         });
+   
+         this.setState(newState);
+      }
 
 
     }
